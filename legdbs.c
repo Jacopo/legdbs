@@ -1,3 +1,6 @@
+#ifdef INDEPENDENT
+#include "../inline-notlibc/inline-notlibc.h"
+#else
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -8,20 +11,24 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
-
+#endif
 
 #define likely(x) __builtin_expect(!!(x), 1)
 #define unlikely(x) __builtin_expect(!!(x), 0)
 
-#define VAL_TO_STR(x) __STRING(x)
-#define V(x) if (unlikely(!(x)))   errx(109, __FILE__ ":" VAL_TO_STR(__LINE__) " %s, it's not %s", __PRETTY_FUNCTION__, #x)
-#define VE(x) if (unlikely(!(x))) err(109, __FILE__ ":" VAL_TO_STR(__LINE__) " %s, it's not %s", __PRETTY_FUNCTION__, #x)
-#define VS(x) if (unlikely((x) == -1)) err(109, __FILE__ ":" VAL_TO_STR(__LINE__) " %s, %s failed (returned -1)", __PRETTY_FUNCTION__, #x)
-
+#ifndef VAL_TO_STR
+#   define VAL_TO_STR(x) __STRING(x)
+#endif
+#ifndef V
+#   define V(x) if (unlikely(!(x)))   errx(109, __FILE__ ":" VAL_TO_STR(__LINE__) " %s, it's not %s", __PRETTY_FUNCTION__, #x)
+#endif
+#ifndef VS
+#   define VS(x) if (unlikely((x) == -1)) err(109, __FILE__ ":" VAL_TO_STR(__LINE__) " %s, %s failed (returned -1)", __PRETTY_FUNCTION__, #x)
+#endif
 
 /* Config */
 #define MAX_BREAKPOINTS 10
-static const bool USE_SIGALTSTACK = true;
+static const bool USE_SIGALTSTACK = false;
 
 /* Architecture-specific */
 #if defined(__i386__) || defined(__x86_64__)
@@ -123,7 +130,7 @@ void install_signal_handler()
                 PROT_READ | PROT_WRITE,
                 MAP_FIXED | MAP_PRIVATE | MAP_ANONYMOUS
                 | MAP_STACK | (STACK_GROWSDOWN ? MAP_GROWSDOWN : 0), -1, 0);
-        VE(alloc != MAP_FAILED);
+        V(alloc != MAP_FAILED);
         V(((uintptr_t) alloc) == SIGALTSTACK_BASE);
 
         stack_t sigstack = { .ss_sp = (void*) SIGALTSTACK_BASE,

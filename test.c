@@ -1,7 +1,10 @@
 /* Copyright 2015 Jacopo Corbetta <jacopo.corbetta@gmail.com> */
 
+#ifdef INDEPENDENT
+#include "../inline-notlibc/inline-notlibc.h"
+#else
 #include <stdio.h>
-#include <stdlib.h>
+#endif
 
 extern unsigned long prova();
 extern unsigned long provashort();
@@ -25,5 +28,5 @@ int main()
     }
 
     printf(" | exit...\n");
-    exit(0);
+    return 0;
 }

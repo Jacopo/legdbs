@@ -3,8 +3,8 @@ Ptrace-less breakpoints, a.k.a. poor-mans detours.
 Mainly to serve LegitBS' idea that ptrace is Bad(TM).
 (But works for any case where ptrace is disabled / undesirable.)
 
-All it needs is an opcode that causes a signal to be sent, and freedom
-to catch it. Put them in `legdbs.c`. 
+All it needs is an opcode that causes a fault signal to be sent,
+and freedom to catch it. Put them in `legdbs.c`.
 
 
 
