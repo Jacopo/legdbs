@@ -2,7 +2,6 @@ Ptrace-less breakpoints, a.k.a. poor-mans detours.
 
 Mainly to serve LegitBS' idea that ptrace is Bad(TM).
 (But works for any case where ptrace is disabled / undesirable.)
-
 All it needs is an opcode that causes a fault signal to be sent,
 and freedom to catch it. Put them in `legdbs.c`.
 
@@ -12,6 +11,7 @@ and freedom to catch it. Put them in `legdbs.c`.
 
 - Cannot handle jumping in the middle of a multi-byte breakpoint
 - No multithreading (may want to use `SIGSTOP` to emulate mutexes)
+- Since it is mainly useful for static programs, you cannot use the regular libc. Weird stuff is necessary to use C. See my inline-notlibc repo. 
 
 
 *TODO*:
@@ -30,7 +30,7 @@ Usage (see `demo_handler.c`)
     set_breakpoint(other, other_postbreak_instruction, foo);
 
 
-**Note that `set_breakpoint` specifies TWO separate breakpoints:**
+### Note that `set_breakpoint` specifies TWO separate breakpoints
 
  - The "wanted" one, disabled after hitting it.
  - The "service" one used to set the "wanted" breakpoint again.
@@ -57,4 +57,4 @@ However, we need to stop as soon as possible to restore the breakpoint,
 hence the service breakpoint.
 
 
-Note: will `exit(109)` on failure.
+Note: will exit(109) on failure.

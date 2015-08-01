@@ -1,3 +1,4 @@
 test
 test_vanilla
 test.o.nasm
+inject_me.o

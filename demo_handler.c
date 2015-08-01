@@ -63,13 +63,13 @@ void print_ucontext(const struct ucontext *ctx) {
 
 
 
-#if defined(TEST_WRAP_ENTRY)
+#if defined(TEST_BEFORE_ENTRY)
 void before_entry()
 {
 // TODO:    uintptr_t prova = xxx;
     install_signal_handler();
-    set_breakpoint(prova, prova_postinst, demo_handler);
-    set_breakpoint(provashort, provashort_postinst, demo_handler);
+//    set_breakpoint(prova, prova_postinst, demo_handler);
+//    set_breakpoint(provashort, provashort_postinst, demo_handler);
     /* entry_helper calls the real _start for us */
 }
 #elif defined(TEST_WRAP_MAIN)

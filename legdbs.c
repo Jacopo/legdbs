@@ -28,7 +28,7 @@
 
 /* Config */
 #define MAX_BREAKPOINTS 10
-static const bool USE_SIGALTSTACK = false;
+static const bool USE_SIGALTSTACK = true;
 
 /* Architecture-specific */
 #if defined(__i386__) || defined(__x86_64__)
