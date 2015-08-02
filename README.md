@@ -2,6 +2,7 @@ Ptrace-less breakpoints, a.k.a. poor-mans detours.
 
 Mainly to serve LegitBS' idea that ptrace is Bad(TM).
 (But works for any case where ptrace is disabled / undesirable.)
+
 All it needs is an opcode that causes a fault signal to be sent,
 and freedom to catch it. Put them in `legdbs.c`.
 
@@ -16,7 +17,7 @@ and freedom to catch it. Put them in `legdbs.c`.
 
 *TODO*:
 
-- Needs manual info on the next instruction (helper script that finds it?)
+- Needs manual info on the next instruction (use `print_set_breakpoint_line.py`)
 - More testing :)
 
 
@@ -55,6 +56,10 @@ After hitting the breakpoint at addr, execution will resume as in serv.,
 so that the code behaves as it was supposed to.
 However, we need to stop as soon as possible to restore the breakpoint,
 hence the service breakpoint.
+
+    print_set_breakpoint_line.py program addr sizeof(brk_opcode)
+
+Helps you find `postbreak_instruction`.
 
 
 Note: will exit(109) on failure.
