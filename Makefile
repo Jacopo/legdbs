@@ -23,7 +23,7 @@ inject_me.o: demo_handler.c legdbs.c
 # 2) Modify the target program
 #
 modified_test: test_vanilla inject_me.o
-	../add_elf_code/add_code_32 --before-entry test_vanilla inject_me.o > $@
+	../elf_add_code/add_code_32 --before-entry test_vanilla inject_me.o > $@
 	chmod a+x $@
 
 
